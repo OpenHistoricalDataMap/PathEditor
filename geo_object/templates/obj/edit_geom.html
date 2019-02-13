@@ -1,0 +1,14 @@
+<form method="post" novalidate>
+    {% csrf_token %}
+    
+    {% include "form-template.html" %}
+    <hr>
+    
+    
+    <div class="row">
+        <div class="col-xs-6"><button class="btn btn-success" type="submit">Done</button></div>
+        <div class="col-xs-6"><button class="btn btn-danger" id="clear">Clear</button></div>
+    </div>
+        
+        
+</form>

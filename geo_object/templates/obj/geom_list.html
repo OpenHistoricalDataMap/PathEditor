@@ -1,0 +1,17 @@
+
+
+{% extends "base.html" %} 
+{% load humanize %}
+{% block content %}
+    {% include 'obj/obj_controls.html'%}
+    {% if geoms %}
+    
+        {% for GeoObj in geoms %}  
+            {% include "geo_object_template.html" %}
+        {% endfor %}
+    
+
+{% else %}
+    <p>No GeoObjects are available.</p>
+{% endif %}
+{% endblock %}

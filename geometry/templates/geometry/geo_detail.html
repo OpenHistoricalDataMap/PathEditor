@@ -1,0 +1,9 @@
+
+{% extends 'base.html' %}
+{% block content %}
+    {% if Geometry %}
+        {% include "geometry_template.html" %}
+    {% else %}
+        <p>Geometry not available.</p>
+    {% endif%}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% load humanize %}
+<div class="well">
+    <div class="row ">        
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                ID
+                <span class="badge badge-primary badge-pill">{{Geometry.id }}</span>
+            </li>
+        
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Geometry ID
+                <span class="badge badge-pill">{{ Geometry.geom_id }}</span>
+            </li>
+    
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                added
+                <span class="badge badge-primary badge-pill"> {{ Geometry.pub_date|naturaltime }}</span>
+            </li>
+    
+        </ul>
+    </div>
+    <div class="row ">
+        <div class="col-xs-9 "><kbd>{{ Geometry.geom|truncatechars:60 }}</kbd> </div>
+        <div class="col-xs-1 "><a class="btn btn-lg" href="{% url 'geometry:info' Geometry.id %}" ><span class="glyphicon text-success glyphicon-eye-open"> </span></a></div>
+        <div class="col-xs-1 "><a class="btn btn-lg" href="{% url 'geometry:edit' Geometry.id %}" ><span class="glyphicon text-warning glyphicon-pencil"></span></a></div>
+        <div class="col-xs-1 "><a class="btn btn-lg" href="{% url 'geometry:delete' Geometry.id %}" ><span class="glyphicon text-danger glyphicon-remove"></span></a></div>
+    </div>
+</div>

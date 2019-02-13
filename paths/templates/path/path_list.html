@@ -1,0 +1,37 @@
+
+
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+    {% include 'path/path_controls.html'%}
+    {% if geoms %}
+    
+        {% for geom in geoms %}  
+        <div class="well ">
+        <div class="row">
+            <h2>Name: {{ geom.name }}</h2>
+            <div class="col-xs-3 ">Inf0: {{ geom.description }} </div>
+            <div class="col-xs-3 ">Geo-ID {{ geom.id }} </div>
+            <div class="col-xs-3 ">added {{ geom.pub_date|naturaltime }} </div>
+            <div class="col-xs-1 "><a class="btn btn-lg" href="{% url 'path:info' geom.id %}" ><span class="glyphicon text-success glyphicon-eye-open"> </span></a></div>
+            <div class="col-xs-1 "><a class="btn btn-lg" href="{% url 'path:edit' geom.id %}" ><span class="glyphicon text-warning glyphicon-pencil"></span></a></div>
+            <div class="col-xs-1 "><a class="btn btn-lg" href="{% url 'path:delete' geom.id %}" ><span class="glyphicon text-danger glyphicon-remove"></span></a></div>
+        </div>
+        {% if geom.spots %}
+        <hr>
+        <div class="row">
+            <ul>
+                {% for spot in geom.spots.all %}
+                    <li>{{ spot }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+        {% endfor %}
+    
+
+{% else %}
+    <p>No GeoObjects are available.</p>
+{% endif %}
+{% endblock %}

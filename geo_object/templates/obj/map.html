@@ -1,0 +1,174 @@
+
+{% extends "base.html" %} 
+{% block content %}
+         <!-- Spacer -->
+        <div class="col-xs-12" style="height:15px;"></div>   
+    <div class="row">
+         <!-- Map -->
+        <div class="col-md-9">
+                <div class="form-row">
+            
+                        <div class="col-xs-4">
+                                <label for="projection">Form</label>
+                                <select id="projection">
+                                    <option value="EPSG:4326">EPSG:4326</option>
+                                    <option value="EPSG:3857">EPSG:3857</option>
+                                </select>
+                    </div>
+                    <div class="col-xs-4">
+                            <label for="precision">Pixel</label>
+                            <input id="precision" type="number" min="1" max="10" value="4"/>
+                    </div>
+                    <div class="col-xs-4">					
+                            <label for="type">Form</label>
+                        <select id="type">
+                            <option value="Point">Punkt</option>
+                            <option value="LineString">Linie</option>
+                            <option value="Polygon">Fl&auml;che</option>
+                            <option value="None">Cursor</option>
+                        </select>
+                    </div>
+                </div>    
+                    <div class="col-xs-12" style="height:15px;"></div>   
+                    <div class="row">
+                            <div id="map" class="map"></div>
+                    </div>                                               
+        </div>
+        <!-- UI -->
+        <div class="col-md-3">
+                <!-- UI Header  -->
+                <div class="col-xs-12" style="height:45px;"></div>   
+                <form method="post" novalidate>
+                        {% csrf_token %}
+                      
+                        {% include "form-template.html" %}
+                        <hr>
+                        
+                        
+                        <div class="row">
+                            <div class="col-xs-6"><button class="btn btn-success" type="submit">Done</button></div>
+                            <div class="col-xs-6"><button class="btn btn-danger" id="clear">Clear</button></div>
+                        </div>
+                        
+                        
+                </form>
+                
+            
+        </div>             
+    </div>
+<script>
+
+    var raster = new ol.layer.Tile({
+        source: new ol.source.OSM()
+    });
+    
+    var source = new ol.source.Vector({wrapX: false});
+    var vector_layer = new ol.layer.Vector({source: source});
+    var vector = new ol.layer.Vector({source: source});
+    var draw_feature = new ol.Feature({ });
+    
+    var view = new ol.View({
+        projection : 'EPSG:3857',
+        center : ol.proj.transform([ 13.4, 52.5 ], 'EPSG:4326', 'EPSG:3857'),
+        zoom : 12
+    });
+
+        
+    var map = new ol.Map({
+    layers: [raster, vector],
+    target: 'map',
+    controls : ol.control.defaults({
+        attributionOptions : ({
+            collapsible : false
+        })
+    }),
+    view: view
+    });
+    var typeSelect = document.getElementById('type');    
+    map.on('pointermove', function(evt) {
+        if (evt.dragging) {
+            return;
+        }
+        var pixel = map.getEventPixel(evt.originalEvent);
+        var hit = map.forEachLayerAtPixel(pixel, function() {
+            return true;
+        });
+        map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+    });
+
+        var draw; // global so we can remove it later
+        function addDraw() {
+            var value = typeSelect.value;
+            if (value !== 'None') {
+                draw = new ol.interaction.Draw({
+                source: source,
+                type: typeSelect.value
+                });
+                map.addInteraction(draw);
+            }
+            draw.on('drawstart', function() {
+                source.clear();
+                document.getElementById("id_geom").value = ""
+                
+            });
+            draw.on('drawend', function(e2) {
+                var feature = e2.feature;
+                var geometry = feature.getGeometry();
+                var format = new ol.format.WKT();
+                var wkt = format.writeGeometry(geometry);
+                var coordinates = geometry.getCoordinates();
+                draw_feature.setGeometry(geometry);
+                document.getElementById("id_geom").value = wkt;
+        
+            });
+            draw.on('finish', function(e2) {
+                var feature = e2.feature;
+                var geometry = feature.getGeometry();
+                var format = new ol.format.WKT();
+                var wkt = format.writeGeometry(geometry);
+                var coordinates = geometry.getCoordinates();
+                draw_feature.setGeometry(geometry);
+                document.getElementById("id_geom").value = wkt;
+                
+            });	
+        }
+        
+
+   
+    
+          /**
+           * Handle change event.
+           */
+        
+
+        typeSelect.onchange = function() {
+            map.removeInteraction(draw);
+            addDraw();
+        };
+    
+        addDraw();
+      
+        function noDraw() {
+              if (draw) {
+                map.removeInteraction(webMapValues.drawObj);
+              }
+        }; 
+
+        document.getElementById('clear').addEventListener('click', function() {
+        map.once('rendercomplete', function(event) {
+          var canvas = event.context.canvas;
+          if (navigator.msSaveBlob) {
+            navigator.msSaveBlob(canvas.msToBlob(), 'map.png');
+          } else {
+            canvas.toBlob(function(blob) {
+              saveAs(blob, 'map.png');
+            });
+          }
+        });
+        map.renderSync();
+      }); 
+        
+</script>
+</div>
+{% endblock %}
+

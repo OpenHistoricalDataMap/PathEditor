@@ -1,0 +1,51 @@
+{% load humanize %}
+<div class="well">
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+                <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Name
+                            <span class="badge badge-primary badge-pill">{{GeoObj.name }}</span>
+                        </li>
+                    
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Info
+                            <span class="badge badge-pill">{{ GeoObj.description }}</span>
+                        </li>
+                
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            added
+                            <span class="badge badge-primary badge-pill"> {{ GeoObj.pub_date|naturaltime }}</span>
+                        </li>
+                
+                    </ul>
+        </div>
+
+        <div class="col-md-6 col-xs-12">
+                <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            since
+                            <span class="badge badge-primary badge-pill">{{GeoObj.valid_from.date }}</span>
+                        </li>
+                    
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            until
+                            <span class="badge badge-pill">{{ GeoObj.valid_until.date }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Geometry ID
+                            <span class="badge badge-pill">{{ GeoObj.geom_id }}</span>
+                        </li>
+                       
+                
+                    </ul>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-xs-9 "><kbd>{{ GeoObj.geom|truncatechars:60 }}</kbd> </div>
+        <div class="col-xs-1 "><a class="btn btn-lg" href="{% url 'geo_object:info' GeoObj.id %}" ><span class="glyphicon text-success glyphicon-eye-open"> </span></a></div>
+        <div class="col-xs-1 "><a class="btn btn-lg" href="{% url 'geo_object:edit' GeoObj.id %}" ><span class="glyphicon text-warning glyphicon-pencil"></span></a></div>
+        <div class="col-xs-1 "><a class="btn btn-lg" href="{% url 'geo_object:delete' GeoObj.id %}" ><span class="glyphicon text-danger glyphicon-remove"></span></a></div>
+    </div>
+        </div>
+        

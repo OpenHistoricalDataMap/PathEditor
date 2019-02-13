@@ -1,0 +1,17 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+
+{% include "geometry/geo_controls.html" %}
+    {% if geoms %}
+    
+        {% for Geometry in geoms %}  
+            {% include "geometry_template.html" %}
+        {% endfor %}
+    
+
+{% else %}
+    <p>No Geometries are available.</p>
+{% endif %}
+{% endblock %}

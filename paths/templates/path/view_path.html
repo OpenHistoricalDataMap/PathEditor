@@ -1,0 +1,8 @@
+{% extends "base.html" %} 
+{% block content %}
+    {% if Path %}
+        {% include "path_template.html" %}
+    {% else %}
+        <p>Path not available.</p>
+    {% endif%}
+{% endblock %}
