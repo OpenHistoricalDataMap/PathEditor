@@ -25,5 +25,8 @@ The main-URLs resolve as followed:
 * `/obg/` lists Geometry Objects
 * `/path/` lists Paths
 
-## Further INformation
+## Further Information
 can be fond in the pdf-file within the repository. It explains the API and shows example diagrams.
+* https://www.postgresql.org/docs/11/index.html               Postgres Help
+* https://docs.djangoproject.com/en/2.1/                      Django Help
+* https://packaging.python.org/tutorials/installing-packages/ Pip Help
