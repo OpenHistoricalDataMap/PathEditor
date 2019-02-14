@@ -21,7 +21,7 @@ Finally replace the ENGINE-value with `django.db.backends.postgresql`
 ## Web UI Navigation
 The three datatypes cann be accessed via the top-bar menu, which forwards to a complete list of items.
 The main-URLs resolve as followed:
-⋅⋅* `/geom/` lists Geometries
-⋅⋅* `/obg/` lists Geometry Objects
-⋅⋅* `/path/` lists Paths
+* `/geom/` lists Geometries
+* `/obg/` lists Geometry Objects
+* `/path/` lists Paths
 
