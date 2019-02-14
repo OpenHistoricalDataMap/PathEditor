@@ -25,3 +25,5 @@ The main-URLs resolve as followed:
 * `/obg/` lists Geometry Objects
 * `/path/` lists Paths
 
+## Further INformation
+can be fond in the pdf-file within the repository. It explains the API and shows example diagrams.
